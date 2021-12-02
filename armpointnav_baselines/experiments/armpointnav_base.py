@@ -34,8 +34,8 @@ class ArmPointNavBaseConfig(ExperimentConfig, ABC):
             "failed_stop_reward": 0.0,
             "shaping_weight": 1.0,  # we are not using this
             "failed_action_penalty": -0.03,
-            "disturb_penalty": self.DISTURB_PEN, # <=0, negative
-            "disturb_visible": self.DISTURB_VIS, # if consider the visible objects only
+            "disturb_penalty": self.DISTURB_PEN,  # <=0, negative
+            "disturb_visible": self.DISTURB_VIS,  # if consider the visible objects only
         }
 
     @classmethod

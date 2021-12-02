@@ -9,15 +9,14 @@ from allenact.algorithms.onpolicy_sync.losses.abstract_loss import (
 from allenact.algorithms.onpolicy_sync.losses import PPO
 from allenact.algorithms.onpolicy_sync.losses.ppo import PPOConfig
 from allenact.embodiedai.aux_losses.losses import (
-    InverseDynamicsLoss, CPCA16Loss, 
+    InverseDynamicsLoss,
+    CPCA16Loss,
 )
 from projects.manipulathor_disturb_free.armpointnav_baselines.models.disturb_pred_loss import (
-    DisturbPredictionLoss
+    DisturbPredictionLoss,
 )
 
-from allenact.embodiedai.models.fusion_models import (
-    AverageFusion,
-)
+from allenact.embodiedai.models.fusion_models import AverageFusion
 from allenact.utils.experiment_utils import (
     Builder,
     PipelineStage,
@@ -33,7 +32,7 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.armpoi
 class ArmPointNavMixInPPOConfig(ArmPointNavBaseConfig):
 
     normalize_advantage = (
-        # True 
+        # True
         False
     )
     add_prev_actions = (
@@ -53,13 +52,13 @@ class ArmPointNavMixInPPOConfig(ArmPointNavBaseConfig):
 
     @classmethod
     def training_pipeline(cls, **kwargs):
-        ppo_steps = int(30000000) # 30M
+        ppo_steps = int(30000000)  # 30M
         lr = 3e-4
         num_mini_batch = 1
         update_repeats = 4
         num_steps = cls.MAX_STEPS
         save_interval = 1000000  # 1M
-        log_interval = 10000 
+        log_interval = 10000
         gamma = 0.99
         use_gae = True
         gae_lambda = 0.95
@@ -72,21 +71,17 @@ class ArmPointNavMixInPPOConfig(ArmPointNavBaseConfig):
         # Total losses
         total_aux_losses: Dict[str, Tuple[AbstractActorCriticLoss, float]] = {
             InverseDynamicsLoss.UUID: (
-                InverseDynamicsLoss(
-                    subsample_rate=0.2, subsample_min_num=10,
-                ),
+                InverseDynamicsLoss(subsample_rate=0.2, subsample_min_num=10,),
                 0.05 * aux_loss_total_weight,
             ),
             CPCA16Loss.UUID: (
-                CPCA16Loss(
-                    subsample_rate=0.2,
-                ),
+                CPCA16Loss(subsample_rate=0.2,),
                 0.05 * aux_loss_total_weight,
             ),
             DisturbPredictionLoss.UUID: (
                 DisturbPredictionLoss(gamma=cls.DISTURB_FOCAL_GAMMA),
                 0.05 * aux_loss_total_weight,
-            )
+            ),
         }
         named_losses = {uuid: total_aux_losses[uuid] for uuid in cls.AUXILIARY_UUIDS}
         named_losses["ppo_loss"] = (PPO(**PPOConfig), 1.0)
@@ -111,7 +106,8 @@ class ArmPointNavMixInPPOConfig(ArmPointNavBaseConfig):
                     loss_weights=[val[1] for val in named_losses.values()],
                 )
             ],
-            lr_scheduler_builder=Builder( # lambda lr: lambda * base_lr
-                LambdaLR, {"lr_lambda": LinearDecay(steps=ppo_steps, startp=1.0, endp=1.0/3)}
+            lr_scheduler_builder=Builder(  # lambda lr: lambda * base_lr
+                LambdaLR,
+                {"lr_lambda": LinearDecay(steps=ppo_steps, startp=1.0, endp=1.0 / 3)},
             ),
         )

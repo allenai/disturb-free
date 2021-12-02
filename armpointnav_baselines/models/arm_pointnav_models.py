@@ -22,10 +22,10 @@ import allenact.embodiedai.models.resnet as resnet
 from allenact.embodiedai.models.visual_nav_models import VisualNavActorCritic
 from allenact.embodiedai.models.aux_models import AuxiliaryModel
 from projects.manipulathor_disturb_free.armpointnav_baselines.models.disturb_pred_loss import (
-    DisturbPredictionLoss
+    DisturbPredictionLoss,
 )
 from projects.manipulathor_disturb_free.armpointnav_baselines.models.aux_model import (
-    AuxiliaryModel as DisturbAuxiliaryModel
+    AuxiliaryModel as DisturbAuxiliaryModel,
 )
 
 from projects.manipulathor_disturb_free.armpointnav_baselines.models.manipulathor_net_utils import (
@@ -33,7 +33,7 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.models.manipulatho
 )
 
 from projects.manipulathor_disturb_free.armpointnav_baselines.models.disturb_pred_loss import (
-    DisturbPredictionLoss
+    DisturbPredictionLoss,
 )
 
 
@@ -67,16 +67,15 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
         action_embed_size=16,
         # Aux loss
         multiple_beliefs=False,
-        beliefs_fusion: Optional[str]=None,
+        beliefs_fusion: Optional[str] = None,
         auxiliary_uuids: Optional[List[str]] = None,
         # safety inference with the disturbance prediction task
-        inference_coef: float=0.0,
-
+        inference_coef: float = 0.0,
         # below are custom params
         rgb_uuid: Optional[str] = None,
         depth_uuid: Optional[str] = None,
         goal_embedding_size=32,
-        goal_space_mode = None,
+        goal_space_mode=None,
         trainable_masked_hidden_state: bool = False,
         # perception backbone params,
         backbone="resnet18",
@@ -108,7 +107,7 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
         self.disturbance_uuid = disturbance_uuid
         assert inference_coef >= 0.0
         self.inference_coef = inference_coef
-    
+
         if backbone == "simple_cnn":
             self.visual_encoder = SimpleCNN(
                 observation_space=observation_space,
@@ -116,7 +115,7 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
                 rgb_uuid=rgb_uuid,
                 depth_uuid=depth_uuid,
             )
-        else: # resnet family
+        else:  # resnet family
             self.visual_encoder = resnet.ResNetEncoder(
                 observation_space=observation_space,
                 output_size=hidden_size,
@@ -156,12 +155,22 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
         goal_sensor_dim = self.observation_space[self.arm2obj_uuid].shape[0]
         assert goal_sensor_dim == self.observation_space[self.obj2goal_uuid].shape[0]
 
-        if self.goal_space_mode == "man_sel": # manual select the coord by boolean selector
-            goal_embedding_sizes = torch.Tensor([goal_sensor_dim, 100, self.goal_embedding_size])
-        elif self.goal_space_mode == "pickup_obs": # observe the boolean selector to learn selection
-            goal_embedding_sizes = torch.Tensor([goal_sensor_dim*2+1, 100, self.goal_embedding_size])
-        else: # only observe two coords
-            goal_embedding_sizes = torch.Tensor([goal_sensor_dim*2, 100, self.goal_embedding_size])
+        if (
+            self.goal_space_mode == "man_sel"
+        ):  # manual select the coord by boolean selector
+            goal_embedding_sizes = torch.Tensor(
+                [goal_sensor_dim, 100, self.goal_embedding_size]
+            )
+        elif (
+            self.goal_space_mode == "pickup_obs"
+        ):  # observe the boolean selector to learn selection
+            goal_embedding_sizes = torch.Tensor(
+                [goal_sensor_dim * 2 + 1, 100, self.goal_embedding_size]
+            )
+        else:  # only observe two coords
+            goal_embedding_sizes = torch.Tensor(
+                [goal_sensor_dim * 2, 100, self.goal_embedding_size]
+            )
 
         self.goal_embedder = input_embedding_net(
             goal_embedding_sizes.long().tolist(), dropout=0
@@ -187,15 +196,18 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
         self.aux_models = nn.ModuleDict(aux_models)
 
     def load_pretrained_weights(self, weights_path: str):
-        '''weights_path should point to a checkpoint trained with allenact on same visual encoder arch
-        '''
-        pretrained_model_state_dict = torch.load(weights_path, # map to cpu to avoid GPU mem surge
-                                                map_location='cpu')['model_state_dict'] 
+        """weights_path should point to a checkpoint trained with allenact on same visual encoder arch
+        """
+        pretrained_model_state_dict = torch.load(
+            weights_path, map_location="cpu"  # map to cpu to avoid GPU mem surge
+        )["model_state_dict"]
 
         # directly load
         self.load_state_dict(pretrained_model_state_dict)
-        get_logger().info("!!!Fine-tuning: load pretrained weights from " + weights_path)
-    
+        get_logger().info(
+            "!!!Fine-tuning: load pretrained weights from " + weights_path
+        )
+
     @property
     def is_blind(self) -> bool:
         """True if the model is blind (e.g. neither 'depth' or 'rgb' is an
@@ -208,12 +220,14 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
         if self.is_blind:
             return dims
         if self.backbone == "simple_cnn":
-            input_visual_feature_num = int(self.rgb_uuid is not None) + int(self.depth_uuid is not None)
-        else: # resnet
+            input_visual_feature_num = int(self.rgb_uuid is not None) + int(
+                self.depth_uuid is not None
+            )
+        else:  # resnet
             input_visual_feature_num = 1
         return dims + self.recurrent_hidden_state_size * input_visual_feature_num
 
-    def forward_encoder(self, observations: ObservationType)-> torch.FloatTensor:
+    def forward_encoder(self, observations: ObservationType) -> torch.FloatTensor:
 
         arm2obj_dist_raw = observations[self.arm2obj_uuid]
         obj2goal_dist_raw = observations[self.obj2goal_uuid]
@@ -228,17 +242,19 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
             distances[after_pickup] = obj2goal_dist_embed[after_pickup]
 
         elif self.goal_space_mode == "pickup_obs":
-            inputs_raw = torch.cat([pickup_bool_raw.unsqueeze(-1), # (T, N, 1)
-                                    arm2obj_dist_raw,
-                                    obj2goal_dist_raw
-                                    ], dim=-1)
-            distances = self.goal_embedder(inputs_raw) 
+            inputs_raw = torch.cat(
+                [
+                    pickup_bool_raw.unsqueeze(-1),  # (T, N, 1)
+                    arm2obj_dist_raw,
+                    obj2goal_dist_raw,
+                ],
+                dim=-1,
+            )
+            distances = self.goal_embedder(inputs_raw)
 
         else:  # coords_only
-            inputs_raw = torch.cat([arm2obj_dist_raw,
-                                    obj2goal_dist_raw
-                                    ], dim=-1)
-            distances = self.goal_embedder(inputs_raw) 
+            inputs_raw = torch.cat([arm2obj_dist_raw, obj2goal_dist_raw], dim=-1)
+            distances = self.goal_embedder(inputs_raw)
 
         obs_embeds = [distances]
 
@@ -258,17 +274,16 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
     ) -> Tuple[ActorCriticOutput[DistributionType], Optional[Memory]]:
 
         actor_critic_output, memory = super().forward(
-            observations,
-            memory,
-            prev_actions,
-            masks,
+            observations, memory, prev_actions, masks,
         )
 
-        if self.auxiliary_uuids is not None and DisturbPredictionLoss.UUID in self.auxiliary_uuids \
-            and self.inference_coef > 0.0:
+        if (
+            self.auxiliary_uuids is not None
+            and DisturbPredictionLoss.UUID in self.auxiliary_uuids
+            and self.inference_coef > 0.0
+        ):
             actor_critic_output.distributions = DisturbPredictionLoss.inference(
-                actor_critic_output,
-                self.inference_coef,
+                actor_critic_output, self.inference_coef,
             )
 
         return actor_critic_output, memory

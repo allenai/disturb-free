@@ -7,7 +7,8 @@ from allenact_plugins.manipulathor_plugin.manipulathor_sensors import (
     DisturbanceSensor,
 )
 from allenact_plugins.manipulathor_plugin.manipulathor_task_samplers import (
-    ArmPointNavTaskSampler, CamRotateArmPointNavTaskSampler,
+    ArmPointNavTaskSampler,
+    CamRotateArmPointNavTaskSampler,
 )
 from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.armpointnav_mixin_ddppo import (
     ArmPointNavMixInPPOConfig,
@@ -19,17 +20,16 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.ithor.
     ArmPointNaviThorBaseConfig,
 )
 from projects.manipulathor_disturb_free.armpointnav_baselines.models.disturb_pred_loss import (
-    DisturbPredictionLoss
+    DisturbPredictionLoss,
 )
 
+
 class ArmPointNavDepth(
-    ArmPointNaviThorBaseConfig,
-    ArmPointNavMixInPPOConfig,
-    ArmPointNavAdvancedACConfig, 
+    ArmPointNaviThorBaseConfig, ArmPointNavMixInPPOConfig, ArmPointNavAdvancedACConfig,
 ):
     """An Object Navigation experiment configuration in iThor with Depth
     input."""
-    
+
     ACTION_SPACE = (
         # "original"
         "cam_rotate"
@@ -59,17 +59,14 @@ class ArmPointNavDepth(
         # True
         False
     )
-    weights_path = (
-    )
+    weights_path = ()
 
     coord_system = (
         # "xyz_unsigned"
         "polar_radian"
     )
 
-    goal_space_mode = (
-        "man_sel"
-    )
+    goal_space_mode = "man_sel"
 
     SENSORS = [
         DepthSensorThor(
@@ -78,16 +75,11 @@ class ArmPointNavDepth(
             use_normalization=True,
             uuid="depth_lowres",
         ),
-        RelativeAgentArmToObjectSensor(
-            coord_system=coord_system,
-        ),
-        RelativeObjectToGoalSensor(
-            coord_system=coord_system,
-        ),
+        RelativeAgentArmToObjectSensor(coord_system=coord_system,),
+        RelativeObjectToGoalSensor(coord_system=coord_system,),
         PickedUpObjSensor(),
         DisturbanceSensor(),
     ]
-
 
     MAX_STEPS = 200
 
@@ -112,7 +104,7 @@ class ArmPointNavDepth(
     def tag(cls):
         # some basic assumptions
         assert cls.normalize_advantage == False
-        assert cls.add_prev_actions == True 
+        assert cls.add_prev_actions == True
         assert cls.BACKBONE == "resnet18"
         # assert cls.load_pretrained_weights == False
         assert cls.coord_system == "polar_radian"
@@ -146,14 +138,14 @@ class ArmPointNavDepth(
             aux_tag += "_all"
 
         if cls.AUXILIARY_UUIDS is None or (
-            isinstance(cls.AUXILIARY_UUIDS, list) and len(cls.AUXILIARY_UUIDS) == 0):
+            isinstance(cls.AUXILIARY_UUIDS, list) and len(cls.AUXILIARY_UUIDS) == 0
+        ):
             aux_tag += "-no_aux"
         else:
-            aux_tag += "-" + '-'.join(cls.AUXILIARY_UUIDS)
+            aux_tag += "-" + "-".join(cls.AUXILIARY_UUIDS)
             if DisturbPredictionLoss.UUID in cls.AUXILIARY_UUIDS:
                 aux_tag += "-gamma" + str(cls.DISTURB_FOCAL_GAMMA)
             if len(cls.AUXILIARY_UUIDS) > 1 and cls.multiple_beliefs:
-                aux_tag += '-mulbelief-' + cls.beliefs_fusion
+                aux_tag += "-mulbelief-" + cls.beliefs_fusion
 
         return aux_tag
-

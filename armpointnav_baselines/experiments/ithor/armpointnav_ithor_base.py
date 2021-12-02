@@ -30,12 +30,12 @@ class ArmPointNaviThorBaseConfig(ArmPointNavThorBaseConfig, ABC):
         "FloorPlan{}_physics".format(str(i))
         for i in range(1, TOTAL_NUMBER_SCENES + 1)
         if i % 3 == 2 and i % 6 == 2
-    ] # 5 scenes
+    ]  # 5 scenes
     VALID_SCENES = [
         "FloorPlan{}_physics".format(str(i))
         for i in range(1, TOTAL_NUMBER_SCENES + 1)
         if i % 3 == 2 and i % 6 == 5
-    ] # 5 scenes
+    ]  # 5 scenes
 
     ALL_SCENES = TRAIN_SCENES + TEST_SCENES + VALID_SCENES
 

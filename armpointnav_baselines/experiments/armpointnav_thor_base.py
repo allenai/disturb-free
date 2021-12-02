@@ -21,12 +21,13 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.armpoi
 )
 from allenact.utils.system import get_logger
 
+
 class ArmPointNavThorBaseConfig(ArmPointNavBaseConfig, ABC):
     """The base config for all iTHOR PointNav experiments."""
 
     TASK_SAMPLER = SimpleArmPointNavGeneralSampler
     VISUALIZERS = []
-    
+
     THOR_COMMIT_ID: Optional[str] = None
 
     NUM_PROCESSES: Optional[int] = None
@@ -113,14 +114,15 @@ class ArmPointNavThorBaseConfig(ArmPointNavBaseConfig, ABC):
     # @classmethod
     def make_sampler_fn(self, **kwargs) -> TaskSampler:
         from datetime import datetime
+
         now = datetime.now().strftime("%Y_%m_%d_%H_%M_%S_%f")
         if len(self.VISUALIZERS) > 0:
             assert self.test_ckpt is not None
             # print("sampler_fn", self.test_ckpt)
             exp_folder = os.path.join(
-                *self.test_ckpt.split('/')[:-2], # experiment folder
-                "vis", 
-                self.test_ckpt.split('_')[-1], # checkpoint step
+                *self.test_ckpt.split("/")[:-2],  # experiment folder
+                "vis",
+                self.test_ckpt.split("_")[-1],  # checkpoint step
                 self.tag(),
                 now,
             )

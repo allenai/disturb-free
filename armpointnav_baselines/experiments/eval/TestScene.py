@@ -8,14 +8,13 @@ from allenact_plugins.manipulathor_plugin.manipulathor_sensors import (
 )
 from allenact.embodiedai.aux_losses.losses import (
     InverseDynamicsLoss,
-    CPCA16Loss, 
+    CPCA16Loss,
     DisturbPredictionLoss,
 )
-from allenact.embodiedai.models.fusion_models import (
-    AverageFusion,
-)
+from allenact.embodiedai.models.fusion_models import AverageFusion
 from allenact_plugins.manipulathor_plugin.manipulathor_task_samplers import (
-    ArmPointNavTaskSampler, CamRotateArmPointNavTaskSampler,
+    ArmPointNavTaskSampler,
+    CamRotateArmPointNavTaskSampler,
 )
 from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.armpointnav_mixin_ddppo import (
     ArmPointNavMixInPPOConfig,
@@ -32,22 +31,21 @@ from allenact_plugins.manipulathor_plugin.manipulathor_viz import (
 )
 from typing import Optional
 
+
 class TestScene(
-    ArmPointNaviThorBaseConfig,
-    ArmPointNavMixInPPOConfig,
-    ArmPointNavAdvancedACConfig,
+    ArmPointNaviThorBaseConfig, ArmPointNavMixInPPOConfig, ArmPointNavAdvancedACConfig,
 ):
     VISUALIZERS = [
-        # lambda exp_name: ImageVisualizer(exp_name, 
+        # lambda exp_name: ImageVisualizer(exp_name,
         #     add_top_down_view=True
         # ),
         # TestMetricLogger,
     ]
 
-    NUM_TASK_PER_SCENE = None # min(60, 10)
+    NUM_TASK_PER_SCENE = None  # min(60, 10)
 
     NUMBER_OF_TEST_PROCESS = 5
-    TEST_GPU_IDS = [0] # has to be one gpu
+    TEST_GPU_IDS = [0]  # has to be one gpu
 
     TEST_SCENES_DICT = {
         "ValidScene": ArmPointNaviThorBaseConfig.VALID_SCENES,
@@ -56,7 +54,8 @@ class TestScene(
     OBJECT_TYPES_DICT = {
         "novel": ArmPointNaviThorBaseConfig.UNSEEN_OBJECT_TYPES,
         "seen": ArmPointNaviThorBaseConfig.OBJECT_TYPES,
-        "all": ArmPointNaviThorBaseConfig.OBJECT_TYPES + ArmPointNaviThorBaseConfig.UNSEEN_OBJECT_TYPES,
+        "all": ArmPointNaviThorBaseConfig.OBJECT_TYPES
+        + ArmPointNaviThorBaseConfig.UNSEEN_OBJECT_TYPES,
     }
     TEST_SCENES_NAME = (
         "ValidScene"
@@ -68,7 +67,7 @@ class TestScene(
         # "all"
     )
     TEST_SCENES = TEST_SCENES_DICT[TEST_SCENES_NAME]
-    OBJECT_TYPES = OBJECT_TYPES_DICT[OBJECT_TYPES_NAME] 
+    OBJECT_TYPES = OBJECT_TYPES_DICT[OBJECT_TYPES_NAME]
 
     ACTION_SPACE = (
         # "original"
@@ -100,8 +99,8 @@ class TestScene(
         # CPCA16Loss.UUID,
         # DisturbPredictionLoss.UUID,
     ]
-    multiple_beliefs = False # True # 
-    beliefs_fusion =  AverageFusion.UUID #
+    multiple_beliefs = False  # True #
+    beliefs_fusion = AverageFusion.UUID  #
 
     MAX_STEPS = 200
 
@@ -116,12 +115,10 @@ class TestScene(
 
     coord_system = (
         # "xyz_unsigned" # used in CVPR 2021 paper
-        "polar_radian" # used in our method
+        "polar_radian"  # used in our method
     )
 
-    goal_space_mode = (
-        "man_sel"
-    )
+    goal_space_mode = "man_sel"
 
     SENSORS = [
         DepthSensorThor(
@@ -130,19 +127,15 @@ class TestScene(
             use_normalization=True,
             uuid="depth_lowres",
         ),
-        RelativeAgentArmToObjectSensor(
-            coord_system=coord_system,
-        ),
-        RelativeObjectToGoalSensor(
-            coord_system=coord_system,
-        ),
+        RelativeAgentArmToObjectSensor(coord_system=coord_system,),
+        RelativeObjectToGoalSensor(coord_system=coord_system,),
         PickedUpObjSensor(),
         DisturbanceSensor(),
     ]
 
     THOR_COMMIT_ID = "2c61316364ab784027b47def9c7b96d203074725"
 
-    def __init__(self, test_ckpt: Optional[str]=None):
+    def __init__(self, test_ckpt: Optional[str] = None):
         super().__init__()
         self.test_ckpt = test_ckpt
 
@@ -154,7 +147,7 @@ class TestScene(
         )
 
         self.ENV_ARGS = ENV_ARGS
-    
+
         depth_uuid = next(
             (s.uuid for s in self.SENSORS if isinstance(s, DepthSensorThor)), None
         )
@@ -163,7 +156,6 @@ class TestScene(
 
         if self.THOR_COMMIT_ID is not None:
             self.ENV_ARGS["commit_id"] = self.THOR_COMMIT_ID
-
 
     @classmethod
     def tag(cls):
