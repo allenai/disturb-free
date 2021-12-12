@@ -42,7 +42,7 @@ class TestScene(
     ArmPointNaviThorBaseConfig, ArmPointNavMixInPPOConfig, ArmPointNavAdvancedACConfig,
 ):
     VISUALIZERS = [
-        # lambda exp_name: ImageVisualizer(exp_name, 
+        # lambda exp_name: ImageVisualizer(exp_name,
         #     add_top_down_view=True,
         #     add_depth_map=True,
         # ),
