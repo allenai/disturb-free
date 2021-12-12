@@ -12,8 +12,11 @@ from projects.manipulathor_disturb_free.manipulathor_plugin.disturb_sensor impor
 from allenact.embodiedai.aux_losses.losses import (
     InverseDynamicsLoss,
     CPCA16Loss,
+)
+from projects.manipulathor_disturb_free.armpointnav_baselines.models.disturb_pred_loss import (
     DisturbPredictionLoss,
 )
+
 from allenact.embodiedai.models.fusion_models import AverageFusion
 from projects.manipulathor_disturb_free.manipulathor_plugin.manipulathor_task_samplers import (
     ArmPointNavTaskSampler,
@@ -84,11 +87,11 @@ class TestScene(
     DISTURB_PEN = (
         # -25.0
         # -20.0
-        # -15.0
+        -15.0
         # -10.0
         # -5.0
         # -1.0
-        0.0
+        # 0.0
     )
     DISTURB_VIS = False
     INFERENCE_COEF = (
@@ -100,7 +103,7 @@ class TestScene(
     AUXILIARY_UUIDS = [
         # InverseDynamicsLoss.UUID,
         # CPCA16Loss.UUID,
-        # DisturbPredictionLoss.UUID,
+        DisturbPredictionLoss.UUID,
     ]
     multiple_beliefs = False  # True #
     beliefs_fusion = None
