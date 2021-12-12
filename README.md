@@ -59,7 +59,11 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
 ## Evaluate and Visualize the Best Checkpoints
 Please download the best checkpoint from AWS [TODO]
 
-Then locate them into `experiment_output/armpointnav/best_models/`. Run the following script to evaluate (take our disturbance prediction task as example) after setting the same configurations in `TestScene.py`:
+Then locate them into `experiment_output/armpointnav/best_models/`. 
+
+### Evaluation
+
+Run the following script to evaluate (take our disturbance prediction task as example) after setting the same configurations in `TestScene.py`:
 
 ```bash
 python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py -s 1 --save_dir_fmt NESTED \
@@ -67,7 +71,41 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
     -c experiment_output/armpointnav/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints
 ```
 
+### Visualization
 
+For visualization, please use the following configs in `TestScene.py`:
+```python
+    VISUALIZERS = [
+        lambda exp_name: ImageVisualizer(exp_name, 
+            add_top_down_view=True,
+            add_depth_map=True,
+        ),
+        lambda exp_name: TestMetricLogger(exp_name),
+    ]
+    CAMERA_WIDTH = (
+        # 224
+        224 * 2 # higher resolution for better visualization, won't change the agent obs shape
+    )
+    CAMERA_HEIGHT = (
+        # 224
+        224 * 2
+    )
+
+    NUM_TASK_PER_SCENE = (
+        # None
+        6 # set a small number for light storage
+    )
+```
+Then run the following script (we take our best model as example):
+```bash
+# Currently we only support visualization on a single checkpoint
+TEST_CKPT=experiment_output/armpointnav/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints/exp_resnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0__stage_00__steps_000025054444.pt
+
+python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py -s 1 --save_dir_fmt NESTED \
+    --eval -i \
+    -c $TEST_CKPT \
+    --config_kwargs '{"test_ckpt": "'$TEST_CKPT'"}'
+```
 
 ## Acknowledgement
 This repository uses AllenAct framework https://github.com/allenai/allenact and ManipulaTHOR framework https://github.com/allenai/manipulathor. ResNet18 and auxiliary tasks are heavily based on https://github.com/joel99/habitat-pointnav-aux. 

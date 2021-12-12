@@ -42,13 +42,25 @@ class TestScene(
     ArmPointNaviThorBaseConfig, ArmPointNavMixInPPOConfig, ArmPointNavAdvancedACConfig,
 ):
     VISUALIZERS = [
-        # lambda exp_name: ImageVisualizer(exp_name,
-        #     add_top_down_view=True
+        # lambda exp_name: ImageVisualizer(exp_name, 
+        #     add_top_down_view=True,
+        #     add_depth_map=True,
         # ),
-        # TestMetricLogger,
+        # lambda exp_name: TestMetricLogger(exp_name),
     ]
+    CAMERA_WIDTH = (
+        224
+        # 224 * 2
+    )
+    CAMERA_HEIGHT = (
+        224
+        # 224 * 2
+    )
 
-    NUM_TASK_PER_SCENE = None  # min(60, 10)
+    NUM_TASK_PER_SCENE = (
+        None
+        # 6
+    )
 
     NUMBER_OF_TEST_PROCESS = 5
     TEST_GPU_IDS = [0]  # has to be one gpu
@@ -146,13 +158,14 @@ class TestScene(
         self.test_ckpt = test_ckpt
 
         assert (
-            self.CAMERA_WIDTH == 224
-            and self.CAMERA_HEIGHT == 224
+            self.SCREEN_SIZE == 224
             and self.VISIBILITY_DISTANCE == 1
             and self.STEP_SIZE == 0.25
         )
 
         self.ENV_ARGS = ENV_ARGS
+        self.ENV_ARGS["width"] = self.CAMERA_WIDTH
+        self.ENV_ARGS["height"] = self.CAMERA_HEIGHT
 
         depth_uuid = next(
             (s.uuid for s in self.SENSORS if isinstance(s, DepthSensorThor)), None
