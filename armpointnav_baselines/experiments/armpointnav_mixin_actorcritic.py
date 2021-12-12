@@ -8,8 +8,11 @@ from allenact_plugins.manipulathor_plugin.manipulathor_sensors import (
     RelativeAgentArmToObjectSensor,
     RelativeObjectToGoalSensor,
     PickedUpObjSensor,
+)
+from projects.manipulathor_disturb_free.manipulathor_plugin.disturb_sensor import (
     DisturbanceSensor,
 )
+
 from allenact.utils.experiment_utils import Builder
 from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.armpointnav_base import (
     ArmPointNavBaseConfig,
@@ -25,7 +28,7 @@ class ArmPointNavAdvancedACConfig(ArmPointNavBaseConfig):
         preprocessors = []
         return preprocessors
 
-    BACKBONE = "resnet18"
+    BACKBONE = "gnresnet18"
     load_pretrained_weights = False
     weights_path = None
     INFERENCE_COEF = 0.0

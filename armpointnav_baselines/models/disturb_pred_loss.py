@@ -13,7 +13,9 @@ from allenact.algorithms.onpolicy_sync.losses.abstract_loss import ObservationTy
 from allenact.base_abstractions.distributions import CategoricalDistr
 from allenact.base_abstractions.misc import ActorCriticOutput
 
-from allenact_plugins.manipulathor_plugin.manipulathor_sensors import DisturbanceSensor
+from projects.manipulathor_disturb_free.manipulathor_plugin.disturb_sensor import (
+    DisturbanceSensor,
+)
 
 
 class DisturbPredictionLoss(AuxiliaryLoss):

@@ -4,9 +4,12 @@ from allenact_plugins.manipulathor_plugin.manipulathor_sensors import (
     RelativeAgentArmToObjectSensor,
     RelativeObjectToGoalSensor,
     PickedUpObjSensor,
+)
+from projects.manipulathor_disturb_free.manipulathor_plugin.disturb_sensor import (
     DisturbanceSensor,
 )
-from allenact_plugins.manipulathor_plugin.manipulathor_task_samplers import (
+
+from projects.manipulathor_disturb_free.manipulathor_plugin.manipulathor_task_samplers import (
     ArmPointNavTaskSampler,
     CamRotateArmPointNavTaskSampler,
 )
@@ -53,7 +56,7 @@ class ArmPointNavDepth(
 
     BACKBONE = (
         # "simple_cnn"
-        "resnet18"
+        "gnresnet18"
     )
     load_pretrained_weights = (
         # True
@@ -105,7 +108,7 @@ class ArmPointNavDepth(
         # some basic assumptions
         assert cls.normalize_advantage == False
         assert cls.add_prev_actions == True
-        assert cls.BACKBONE == "resnet18"
+        assert cls.BACKBONE == "gnresnet18"
         # assert cls.load_pretrained_weights == False
         assert cls.coord_system == "polar_radian"
         # assert cls.ACTION_SPACE == "cam_rotate"

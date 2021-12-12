@@ -4,15 +4,18 @@ from allenact_plugins.manipulathor_plugin.manipulathor_sensors import (
     RelativeAgentArmToObjectSensor,
     RelativeObjectToGoalSensor,
     PickedUpObjSensor,
+)
+from projects.manipulathor_disturb_free.manipulathor_plugin.disturb_sensor import (
     DisturbanceSensor,
 )
+
 from allenact.embodiedai.aux_losses.losses import (
     InverseDynamicsLoss,
     CPCA16Loss,
     DisturbPredictionLoss,
 )
 from allenact.embodiedai.models.fusion_models import AverageFusion
-from allenact_plugins.manipulathor_plugin.manipulathor_task_samplers import (
+from projects.manipulathor_disturb_free.manipulathor_plugin.manipulathor_task_samplers import (
     ArmPointNavTaskSampler,
     CamRotateArmPointNavTaskSampler,
 )
@@ -100,13 +103,13 @@ class TestScene(
         # DisturbPredictionLoss.UUID,
     ]
     multiple_beliefs = False  # True #
-    beliefs_fusion = AverageFusion.UUID  #
+    beliefs_fusion = None
 
     MAX_STEPS = 200
 
     BACKBONE = (
         # "simple_cnn"
-        "resnet18"
+        "gnresnet18"
     )
     add_prev_actions = (
         True

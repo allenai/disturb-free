@@ -19,7 +19,10 @@ from allenact.base_abstractions.distributions import CategoricalDistr
 from allenact.base_abstractions.misc import ActorCriticOutput, Memory
 from allenact.embodiedai.models.basic_models import SimpleCNN
 import allenact.embodiedai.models.resnet as resnet
-from allenact.embodiedai.models.visual_nav_models import VisualNavActorCritic
+from allenact.embodiedai.models.visual_nav_models import (
+    VisualNavActorCritic,
+    FusionType,
+)
 from allenact.embodiedai.models.aux_models import AuxiliaryModel
 from projects.manipulathor_disturb_free.armpointnav_baselines.models.disturb_pred_loss import (
     DisturbPredictionLoss,
@@ -67,7 +70,7 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
         action_embed_size=16,
         # Aux loss
         multiple_beliefs=False,
-        beliefs_fusion: Optional[str] = None,
+        beliefs_fusion: Optional[FusionType] = None,
         auxiliary_uuids: Optional[List[str]] = None,
         # safety inference with the disturbance prediction task
         inference_coef: float = 0.0,
@@ -78,7 +81,7 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
         goal_space_mode=None,
         trainable_masked_hidden_state: bool = False,
         # perception backbone params,
-        backbone="resnet18",
+        backbone="gnresnet18",
         resnet_baseplanes=32,
         load_pretrained_weights=False,
         weights_path=None,
@@ -116,7 +119,7 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
                 depth_uuid=depth_uuid,
             )
         else:  # resnet family
-            self.visual_encoder = resnet.ResNetEncoder(
+            self.visual_encoder = resnet.GroupNormResNetEncoder(
                 observation_space=observation_space,
                 output_size=hidden_size,
                 rgb_uuid=rgb_uuid,
