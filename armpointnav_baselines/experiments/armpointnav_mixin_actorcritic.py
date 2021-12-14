@@ -29,8 +29,8 @@ class ArmPointNavAdvancedACConfig(ArmPointNavBaseConfig):
         return preprocessors
 
     BACKBONE = "gnresnet18"
-    load_pretrained_weights = False
-    weights_path = None
+    LOAD_PRETRAINED_WEIGHTS = False
+    WEIGHTS_PATH = None
     INFERENCE_COEF = 0.0
 
     @classmethod
@@ -72,23 +72,23 @@ class ArmPointNavAdvancedACConfig(ArmPointNavBaseConfig):
             disturbance_uuid=disturbance_uuid,
             # RNN
             hidden_size=512
-            if cls.multiple_beliefs == False or len(cls.AUXILIARY_UUIDS) <= 1
+            if cls.MULTIPLE_BELIEFS == False or len(cls.AUXILIARY_UUIDS) <= 1
             else 256,
             num_rnn_layers=1,
             rnn_type="GRU",
-            add_prev_actions=cls.add_prev_actions,
+            add_prev_actions=cls.ADD_PREV_ACTIONS,
             action_embed_size=16,
             # CNN
             backbone=cls.BACKBONE,
             resnet_baseplanes=32,
-            load_pretrained_weights=cls.load_pretrained_weights,
-            weights_path=cls.weights_path,
+            load_pretrained_weights=cls.LOAD_PRETRAINED_WEIGHTS,
+            weights_path=cls.WEIGHTS_PATH,
             # goal sensor
             goal_embedding_size=32,  # change it smaller
-            goal_space_mode=cls.goal_space_mode,
+            goal_space_mode=cls.GOAL_SPACE_MODE,
             # Aux
             auxiliary_uuids=cls.AUXILIARY_UUIDS,
-            multiple_beliefs=cls.multiple_beliefs,
-            beliefs_fusion=cls.beliefs_fusion,
+            multiple_beliefs=cls.MULTIPLE_BELIEFS,
+            beliefs_fusion=cls.BELIEF_FUSION,
             inference_coef=cls.INFERENCE_COEF,
         )

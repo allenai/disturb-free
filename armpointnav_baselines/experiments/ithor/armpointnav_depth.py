@@ -58,18 +58,18 @@ class ArmPointNavDepth(
         # "simple_cnn"
         "gnresnet18"
     )
-    load_pretrained_weights = (
+    LOAD_PRETRAINED_WEIGHTS = (
         # True
         False
     )
-    weights_path = ()
+    WEIGHTS_PATH = ()
 
-    coord_system = (
+    COORD_SYSTEM = (
         # "xyz_unsigned"
         "polar_radian"
     )
 
-    goal_space_mode = "man_sel"
+    GOAL_SPACE_MODE = "man_sel"
 
     SENSORS = [
         DepthSensorThor(
@@ -78,8 +78,8 @@ class ArmPointNavDepth(
             use_normalization=True,
             uuid="depth_lowres",
         ),
-        RelativeAgentArmToObjectSensor(coord_system=coord_system,),
-        RelativeObjectToGoalSensor(coord_system=coord_system,),
+        RelativeAgentArmToObjectSensor(coord_system=COORD_SYSTEM,),
+        RelativeObjectToGoalSensor(coord_system=COORD_SYSTEM,),
         PickedUpObjSensor(),
         DisturbanceSensor(),
     ]
@@ -106,30 +106,30 @@ class ArmPointNavDepth(
     @classmethod
     def tag(cls):
         # some basic assumptions
-        assert cls.normalize_advantage == False
-        assert cls.add_prev_actions == True
+        assert cls.NORMALIZE_ADVANTAGE == False
+        assert cls.ADD_PREV_ACTIONS == True
         assert cls.BACKBONE == "gnresnet18"
-        # assert cls.load_pretrained_weights == False
-        assert cls.coord_system == "polar_radian"
+        # assert cls.LOAD_PRETRAINED_WEIGHTS == False
+        assert cls.COORD_SYSTEM == "polar_radian"
         # assert cls.ACTION_SPACE == "cam_rotate"
         assert cls.INFERENCE_COEF == 0.0
 
         aux_tag = cls.BACKBONE
 
-        if cls.normalize_advantage:
+        if cls.NORMALIZE_ADVANTAGE:
             aux_tag += "-NormAdv"
         else:
             aux_tag += "-woNormAdv"
 
-        if cls.add_prev_actions:
+        if cls.ADD_PREV_ACTIONS:
             aux_tag += "-wact"
         else:
             aux_tag += "-woact"
 
-        aux_tag += "-" + cls.goal_space_mode
-        aux_tag += "-" + cls.coord_system
+        aux_tag += "-" + cls.GOAL_SPACE_MODE
+        aux_tag += "-" + cls.COORD_SYSTEM
 
-        if cls.load_pretrained_weights:
+        if cls.LOAD_PRETRAINED_WEIGHTS:
             aux_tag += "-finetune"
         else:
             aux_tag += "-scratch"
@@ -148,7 +148,7 @@ class ArmPointNavDepth(
             aux_tag += "-" + "-".join(cls.AUXILIARY_UUIDS)
             if DisturbPredictionLoss.UUID in cls.AUXILIARY_UUIDS:
                 aux_tag += "-gamma" + str(cls.DISTURB_FOCAL_GAMMA)
-            if len(cls.AUXILIARY_UUIDS) > 1 and cls.multiple_beliefs:
-                aux_tag += "-mulbelief-" + cls.beliefs_fusion
+            if len(cls.AUXILIARY_UUIDS) > 1 and cls.MULTIPLE_BELIEFS:
+                aux_tag += "-mulbelief-" + cls.BELIEF_FUSION
 
         return aux_tag

@@ -117,8 +117,8 @@ class TestScene(
         # CPCA16Loss.UUID,
         DisturbPredictionLoss.UUID,
     ]
-    multiple_beliefs = False  # True #
-    beliefs_fusion = None
+    MULTIPLE_BELIEFS = False  # True #
+    BELIEF_FUSION = None
 
     MAX_STEPS = 200
 
@@ -126,17 +126,17 @@ class TestScene(
         # "simple_cnn"
         "gnresnet18"
     )
-    add_prev_actions = (
+    ADD_PREV_ACTIONS = (
         True
         # False
     )
 
-    coord_system = (
+    COORD_SYSTEM = (
         # "xyz_unsigned" # used in CVPR 2021 paper
         "polar_radian"  # used in our method
     )
 
-    goal_space_mode = "man_sel"
+    GOAL_SPACE_MODE = "man_sel"
 
     SENSORS = [
         DepthSensorThor(
@@ -145,8 +145,8 @@ class TestScene(
             use_normalization=True,
             uuid="depth_lowres",
         ),
-        RelativeAgentArmToObjectSensor(coord_system=coord_system,),
-        RelativeObjectToGoalSensor(coord_system=coord_system,),
+        RelativeAgentArmToObjectSensor(coord_system=COORD_SYSTEM,),
+        RelativeObjectToGoalSensor(coord_system=COORD_SYSTEM,),
         PickedUpObjSensor(),
         DisturbanceSensor(),
     ]

@@ -31,11 +31,11 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.armpoi
 
 class ArmPointNavMixInPPOConfig(ArmPointNavBaseConfig):
 
-    normalize_advantage = (
+    NORMALIZE_ADVANTAGE = (
         # True
         False
     )
-    add_prev_actions = (
+    ADD_PREV_ACTIONS = (
         True
         # False
     )
@@ -47,8 +47,8 @@ class ArmPointNavMixInPPOConfig(ArmPointNavBaseConfig):
         # CPCA16Loss.UUID,
         DisturbPredictionLoss.UUID,
     ]
-    multiple_beliefs = False
-    beliefs_fusion = None
+    MULTIPLE_BELIEFS = False
+    BELIEF_FUSION = None
 
     def training_pipeline(self, **kwargs):
         ppo_steps = int(30000000)  # 30M
@@ -62,7 +62,7 @@ class ArmPointNavMixInPPOConfig(ArmPointNavBaseConfig):
         use_gae = True
         gae_lambda = 0.95
         max_grad_norm = 0.5
-        PPOConfig["normalize_advantage"] = self.normalize_advantage
+        PPOConfig["normalize_advantage"] = self.NORMALIZE_ADVANTAGE
 
         # Total losses
         named_losses = {"ppo_loss": (PPO(**PPOConfig), 1.0)}
