@@ -33,7 +33,8 @@ First keep all the configurations fixed to run pre-training experiments. By choo
 Run pre-training by the following script:
 
 ```bash
-python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/ithor/armpointnav_depth.py -s 302 --save_dir_fmt NESTED \
+python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/ithor/armpointnav_depth.py \
+    -s 302 --save_dir_fmt NESTED \
     -o experiment_output/armpointnav/
 ```
 
@@ -51,8 +52,8 @@ Finally, the online evaluation configuration is `projects/manipulathor_disturb_f
 Run online evaluation by the script:
 
 ```bash
-python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py -s 1 --save_dir_fmt NESTED \
-    --eval \
+python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py \
+    -s 1 --save_dir_fmt NESTED --infer_output_dir --eval \
     -c <checkpoint_path>
 ```
 
@@ -66,8 +67,8 @@ Then locate them into `experiment_output/armpointnav/best_models/`.
 Run the following script to evaluate (take our disturbance prediction task as example) after setting the same configurations in `TestScene.py`:
 
 ```bash
-python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py -s 1 --save_dir_fmt NESTED \
-    --eval -i \
+python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py \
+    -s 1 --save_dir_fmt NESTED --infer_output_dir --eval -i \
     -c experiment_output/armpointnav/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints
 ```
 
@@ -101,8 +102,8 @@ Then run the following script (we take our best model as example):
 # Currently we only support visualization on a single checkpoint
 TEST_CKPT=experiment_output/armpointnav/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints/exp_resnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0__stage_00__steps_000025054444.pt
 
-python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py -s 1 --save_dir_fmt NESTED \
-    --eval -i \
+python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py \
+    -s 1 --save_dir_fmt NESTED --infer_output_dir --eval -i \
     -c $TEST_CKPT \
     --config_kwargs '{"test_ckpt": "'$TEST_CKPT'"}'
 ```
