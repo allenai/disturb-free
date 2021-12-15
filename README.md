@@ -58,18 +58,21 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
 ```
 
 ## Evaluate and Visualize the Best Checkpoints
-Please download the best checkpoint from AWS [TODO]
-
-Then locate them into `experiment_output/armpointnav/best_models/`. 
+Please download the best checkpoints of our method and the compared methods using the script:
+```bash
+sh pretrained_model_ckpts/download_navigation_model_ckpts.sh armpointnav-disturb-free-2022
+```
 
 ### Evaluation
 
 Run the following script to evaluate (take our disturbance prediction task as example) after setting the same configurations in `TestScene.py`:
 
 ```bash
+TEST_CKPT=pretrained_model_ckpts/armpointnav/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints/exp_resnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0__stage_00__steps_000025054444.pt
+
 python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py \
     -s 1 --save_dir_fmt NESTED --infer_output_dir --eval -i \
-    -c experiment_output/armpointnav/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints
+    -c $TEST_CKPT
 ```
 
 ### Visualization
@@ -100,8 +103,6 @@ For visualization, please use the following configs in `TestScene.py`:
 Then run the following script (we take our best model as example):
 ```bash
 # Currently we only support visualization on a single checkpoint
-TEST_CKPT=experiment_output/armpointnav/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints/exp_resnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0__stage_00__steps_000025054444.pt
-
 python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py \
     -s 1 --save_dir_fmt NESTED --infer_output_dir --eval -i \
     -c $TEST_CKPT \
