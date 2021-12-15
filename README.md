@@ -60,7 +60,7 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
 ## Evaluate and Visualize the Best Checkpoints
 Please download the best checkpoints of our method and the compared methods using the script:
 ```bash
-sh pretrained_model_ckpts/download_navigation_model_ckpts.sh armpointnav-disturb-free-2022
+sh projects/manipulathor_disturb_free/download_ckpts.sh armpointnav-disturb-free-2022
 ```
 
 ### Evaluation
