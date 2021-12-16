@@ -58,9 +58,9 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
 ```
 
 ## Evaluate and Visualize the Best Checkpoints
-Please download the best checkpoints of our method and the compared methods using the script:
+Please download the best checkpoints of our method (`Disturb_Pred`), the compared methods (`CPCA_16` and `InvDyn`) and baseline (`no_aux`) using the script:
 ```bash
-sh projects/manipulathor_disturb_free/download_ckpts.sh armpointnav-disturb-free-2022
+sh projects/manipulathor_disturb_free/download_ckpts.sh armpointnav-disturb-free-2021
 ```
 
 ### Evaluation
@@ -68,7 +68,7 @@ sh projects/manipulathor_disturb_free/download_ckpts.sh armpointnav-disturb-free
 Run the following script to evaluate (take our disturbance prediction task as example) after setting the same configurations in `TestScene.py`:
 
 ```bash
-TEST_CKPT=pretrained_model_ckpts/armpointnav/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints/exp_resnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0__stage_00__steps_000025054444.pt
+TEST_CKPT=pretrained_model_ckpts/armpointnav-disturb-free-2021/best_models/gnresnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0/checkpoints/exp_resnet18-woNormAdv-wact-man_sel-polar_radian-finetune-disturb_pen15.0_all-Disturb_Pred-gamma2.0__stage_00__steps_000025054444.pt
 
 python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py \
     -s 1 --save_dir_fmt NESTED --infer_output_dir --eval -i \
