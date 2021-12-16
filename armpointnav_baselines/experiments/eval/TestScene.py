@@ -9,6 +9,7 @@ from projects.manipulathor_disturb_free.manipulathor_plugin.disturb_sensor impor
     DisturbanceSensor,
 )
 
+# noinspection PyUnresolvedReferences
 from allenact.embodiedai.aux_losses.losses import (
     InverseDynamicsLoss,
     CPCA16Loss,
@@ -17,6 +18,7 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.models.disturb_pre
     DisturbPredictionLoss,
 )
 
+# noinspection PyUnresolvedReferences
 from allenact.embodiedai.models.fusion_models import AverageFusion
 from projects.manipulathor_disturb_free.manipulathor_plugin.manipulathor_task_samplers import (
     ArmPointNavTaskSampler,
@@ -31,6 +33,8 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.armpoi
 from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.ithor.armpointnav_ithor_base import (
     ArmPointNaviThorBaseConfig,
 )
+
+# noinspection PyUnresolvedReferences
 from allenact_plugins.manipulathor_plugin.manipulathor_viz import (
     ImageVisualizer,
     TestMetricLogger,

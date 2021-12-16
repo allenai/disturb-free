@@ -16,6 +16,7 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.models.disturb_pre
     DisturbPredictionLoss,
 )
 
+# noinspection PyUnresolvedReferences
 from allenact.embodiedai.models.fusion_models import AverageFusion
 from allenact.utils.experiment_utils import (
     Builder,
