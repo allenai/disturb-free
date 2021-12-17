@@ -112,4 +112,4 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
 It will generate the gifs of both egocentric and top-down view with annotation of current disturbance distance in meter on the top-left corner. It will also generate the start and goal image in RGB and depth, and all the evaluation metrics in json.
 
 ## Acknowledgement
-This repository uses AllenAct framework https://github.com/allenai/allenact and ManipulaTHOR framework https://github.com/allenai/manipulathor. GroupNormResNet18 and auxiliary tasks are heavily based on https://github.com/joel99/habitat-pointnav-aux. 
+This repository uses [AllenAct](https://github.com/allenai/allenact) as codebase and [ManipulaTHOR](https://github.com/allenai/manipulathor) as testbed. GroupNormResNet18 and auxiliary tasks are heavily based on [Auxiliary Tasks Speed Up Learning PointGoal Navigation](https://github.com/joel99/habitat-pointnav-aux). 
