@@ -16,7 +16,7 @@ conda install python==3.6.12
 pip install -r projects/disturb-free/requirements.txt
 ```
 
-Then download the APND dataset from https://github.com/allenai/manipulathor/tree/main/datasets
+Then download the [APND dataset](https://github.com/allenai/manipulathor/tree/main/datasets) to the allenact folder.
 
 ## Stage I: Pre-Training
 The main configuration is in `projects/manipulathor_disturb_free/armpointnav_baselines/experiments/ithor/armpointnav_depth.py`. 
