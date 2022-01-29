@@ -1,9 +1,11 @@
 # Towards Disturbance-Free Visual Mobile Manipulation
+[[Project Site]](https://sites.google.com/view/disturb-free/home)  [[arXiv]](https://arxiv.org/abs/2112.12612)
 
 ## Install
-Please git clone allenact repo with this submodule:
+Please git clone [AllenAct](https://github.com/allenai/allenact) repo with this submodule and change to a specific commit for reproducibility:
 ```bash
 git clone --recurse-submodules https://github.com/allenai/allenact.git
+git checkout f00445e4ae8724ccc001b3300af5c56a7f882614
 ```
 
 We recommend using a virtual environment like conda to install the dependencies. Typically, our experiment needs a 8-GPU machine with around 60 CPU cores. Below are scripts for installation by conda:
@@ -15,7 +17,7 @@ conda install python==3.6.12
 pip install -r projects/disturb-free/requirements.txt
 ```
 
-Then download the APND dataset from https://github.com/allenai/manipulathor/tree/main/datasets
+Then download the [APND dataset](https://github.com/allenai/manipulathor/tree/main/datasets) to the allenact folder.
 
 ## Stage I: Pre-Training
 The main configuration is in `projects/manipulathor_disturb_free/armpointnav_baselines/experiments/ithor/armpointnav_depth.py`. 
@@ -110,5 +112,10 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
 ```
 It will generate the gifs of both egocentric and top-down view with annotation of current disturbance distance in meter on the top-left corner. It will also generate the start and goal image in RGB and depth, and all the evaluation metrics in json.
 
+## Core Functions
+* [Disturbance distance sensor](https://github.com/allenai/disturb-free/blob/main/manipulathor_plugin/disturb_sensor.py)
+* [Disturbance distance penalty](https://github.com/allenai/allenact/blob/f00445e4ae8724ccc001b3300af5c56a7f882614/allenact_plugins/manipulathor_plugin/manipulathor_tasks.py#L441)
+* [Disturbance distance prediction task](https://github.com/allenai/disturb-free/blob/main/armpointnav_baselines/models/disturb_pred_loss.py)
+
 ## Acknowledgement
-This repository uses AllenAct framework https://github.com/allenai/allenact and ManipulaTHOR framework https://github.com/allenai/manipulathor. GroupNormResNet18 and auxiliary tasks are heavily based on https://github.com/joel99/habitat-pointnav-aux. 
+This repository uses [AllenAct](https://github.com/allenai/allenact) as codebase and [ManipulaTHOR](https://github.com/allenai/manipulathor) as testbed. GroupNormResNet18 and auxiliary tasks are heavily based on [Auxiliary Tasks Speed Up Learning PointGoal Navigation](https://github.com/joel99/habitat-pointnav-aux). 
