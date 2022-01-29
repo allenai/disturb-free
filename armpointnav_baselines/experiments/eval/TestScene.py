@@ -111,7 +111,7 @@ class TestScene(
     )
     DISTURB_VIS = False
     INFERENCE_COEF = (
-        # 0.1
+        # 0.01
         0.0
     )
 

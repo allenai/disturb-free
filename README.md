@@ -47,7 +47,7 @@ Then run fine-tuning using the same script above.
 
 
 ## Stage III: Online Evaluation
-Finally, the online evaluation configuration is `projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py`, where we need to set the configurations same as the checkpoint we want to evaluate. Then we can set `INFERENCE_COEF=0.1` if using disturbance prediction task.
+Finally, the online evaluation configuration is `projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py`, where we need to set the configurations same as the checkpoint we want to evaluate. Then we can set `INFERENCE_COEF=0.01` if using disturbance prediction task.
 
 Run online evaluation by the script:
 
