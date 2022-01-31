@@ -12,6 +12,8 @@ from projects.manipulathor_disturb_free.armpointnav_baselines.experiments.armpoi
 class ArmPointNaviThorBaseConfig(ArmPointNavThorBaseConfig, ABC):
     """The base config for all iTHOR ObjectNav experiments."""
 
+    THOR_COMMIT_ID = "a84dd29471ec2201f583de00257d84fac1a03de2"
+
     NUM_PROCESSES = 19
     TRAIN_GPU_IDS = list(range(torch.cuda.device_count()))
     SAMPLER_GPU_IDS = TRAIN_GPU_IDS

@@ -86,8 +86,6 @@ class ArmPointNavDepth(
 
     MAX_STEPS = 200
 
-    THOR_COMMIT_ID = "2c61316364ab784027b47def9c7b96d203074725"
-
     def __init__(self):
         super().__init__()
 

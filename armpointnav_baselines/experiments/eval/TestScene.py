@@ -80,8 +80,8 @@ class TestScene(
         + ArmPointNaviThorBaseConfig.UNSEEN_OBJECT_TYPES,
     }
     TEST_SCENES_NAME = (
-        "ValidScene"
-        # "TestScene"
+        # "ValidScene"
+        "TestScene"
     )
     OBJECT_TYPES_NAME = (
         "novel"
@@ -154,8 +154,6 @@ class TestScene(
         PickedUpObjSensor(),
         DisturbanceSensor(),
     ]
-
-    THOR_COMMIT_ID = "2c61316364ab784027b47def9c7b96d203074725"
 
     def __init__(self, test_ckpt: Optional[str] = None):
         super().__init__()
