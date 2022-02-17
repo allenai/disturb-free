@@ -29,8 +29,6 @@ class ArmPointNavAdvancedACConfig(ArmPointNavBaseConfig):
         return preprocessors
 
     BACKBONE = "gnresnet18"
-    LOAD_PRETRAINED_WEIGHTS = False
-    WEIGHTS_PATH = None
     INFERENCE_COEF = 0.0
 
     @classmethod
@@ -81,8 +79,6 @@ class ArmPointNavAdvancedACConfig(ArmPointNavBaseConfig):
             # CNN
             backbone=cls.BACKBONE,
             resnet_baseplanes=32,
-            load_pretrained_weights=cls.LOAD_PRETRAINED_WEIGHTS,
-            weights_path=cls.WEIGHTS_PATH,
             # goal sensor
             goal_embedding_size=32,  # change it smaller
             goal_space_mode=cls.GOAL_SPACE_MODE,

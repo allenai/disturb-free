@@ -83,8 +83,6 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
         # perception backbone params,
         backbone="gnresnet18",
         resnet_baseplanes=32,
-        load_pretrained_weights=False,
-        weights_path=None,
     ):
         """Initializer.
 
@@ -147,9 +145,6 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
 
         self.create_goal_sensor_model()
 
-        if load_pretrained_weights:
-            self.load_pretrained_weights(weights_path)
-
         self.train()
         get_logger().debug(self)
 
@@ -197,19 +192,6 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
             )
 
         self.aux_models = nn.ModuleDict(aux_models)
-
-    def load_pretrained_weights(self, weights_path: str):
-        """weights_path should point to a checkpoint trained with allenact on same visual encoder arch
-        """
-        pretrained_model_state_dict = torch.load(
-            weights_path, map_location="cpu"  # map to cpu to avoid GPU mem surge
-        )["model_state_dict"]
-
-        # directly load
-        self.load_state_dict(pretrained_model_state_dict)
-        get_logger().info(
-            "!!!Fine-tuning: load pretrained weights from " + weights_path
-        )
 
     @property
     def is_blind(self) -> bool:

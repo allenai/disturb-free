@@ -62,7 +62,6 @@ class ArmPointNavDepth(
         # True
         False
     )
-    WEIGHTS_PATH = ()
 
     COORD_SYSTEM = (
         # "xyz_unsigned"

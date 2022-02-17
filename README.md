@@ -43,9 +43,18 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
 Then we will see the experiment results in `experiment_output/armpointnav/` folder. We can use tensorboard to visualize the results on training scenes.
 
 ## Stage II: Fine-Tuning
-Now we switch to the fine-tuning stage, where we use the pre-trained checkpoint saved in the experiments results folder `*/checkpoints/*.pt`. Choose one checkpoint and copy its path in `WEIGHTS_PATH` and set `LOAD_PRETRAINED_WEIGHTS = True` and `DISTURB_PEN=15.0` in `armpointnav_depth.py`.
+Now we switch to the fine-tuning stage, where we use the pre-trained checkpoint saved in the experiments results folder `*/checkpoints/*.pt`. Choose one checkpoint (e.g. at 20M steps) and set `LOAD_PRETRAINED_WEIGHTS = True` and `DISTURB_PEN=15.0` in `armpointnav_depth.py`.
 
-Then run fine-tuning using the same script above.
+Then run fine-tuning using the script below:
+
+```bash
+PRETRAIN_CKPT=<ckpt_path>
+python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/ithor/armpointnav_depth.py \
+    -s 302 --save_dir_fmt NESTED \
+    -o experiment_output/armpointnav/ \
+    -r -c $PRETRAIN_CKPT 
+# don't forget -r argument
+```
 
 
 ## Stage III: Online Evaluation
