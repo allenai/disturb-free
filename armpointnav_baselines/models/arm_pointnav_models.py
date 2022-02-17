@@ -151,7 +151,7 @@ class ArmPointNavBaselineActorCritic(VisualNavActorCritic):
             self.load_pretrained_weights(weights_path)
 
         self.train()
-        get_logger().info(self)
+        get_logger().debug(self)
 
     def create_goal_sensor_model(self):
         assert self.goal_space_mode in ["man_sel", "pickup_obs", "coords_only"]
