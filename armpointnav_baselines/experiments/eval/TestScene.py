@@ -110,10 +110,7 @@ class TestScene(
         # 0.0
     )
     DISTURB_VIS = False
-    INFERENCE_COEF = (
-        # 0.01
-        0.0
-    )
+    INFERENCE_COEF = 0.0
 
     # selected auxiliary uuids
     AUXILIARY_UUIDS = [

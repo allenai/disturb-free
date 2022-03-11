@@ -56,18 +56,6 @@ python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experime
 # don't forget -r argument
 ```
 
-
-## Stage III: Online Evaluation
-Finally, the online evaluation configuration is `projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py`, where we need to set the configurations same as the checkpoint we want to evaluate. Then we can set `INFERENCE_COEF=0.01` if using disturbance prediction task.
-
-Run online evaluation by the script:
-
-```bash
-python main.py projects/manipulathor_disturb_free/armpointnav_baselines/experiments/eval/TestScene.py \
-    -s 1 --save_dir_fmt NESTED --infer_output_dir --eval \
-    -c <checkpoint_path>
-```
-
 ## Evaluate and Visualize the Best Checkpoints
 Please download the best checkpoints of our method (`Disturb_Pred`), the compared methods (`CPCA_16` and `InvDyn`) and baseline (`no_aux`) using the script:
 ```bash
