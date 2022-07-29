@@ -3,9 +3,6 @@
 
 Authors: [Tianwei Ni](https://twni2016.github.io/) (Mila, AI2), [Kiana Ehsani](https://sites.google.com/view/ehsanik-personal-website) (AI2), [Luca Weihs](https://lucaweihs.github.io/)† (AI2), [Jordi Salvador](http://jordisalvador-image.blogspot.com/)† (AI2) († equal advising)
 
-## Motivation
-TODO
-
 ## Install
 Please git clone [AllenAct](https://github.com/allenai/allenact) repo with this submodule and change to a specific commit for reproducibility:
 ```bash
