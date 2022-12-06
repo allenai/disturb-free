@@ -1,4 +1,4 @@
-# Towards Disturbance-Free Visual Mobile Manipulation
+# Towards Disturbance-Free Visual Mobile Manipulation (WACV 2023)
 [[Project Site]](https://sites.google.com/view/disturb-free/home)  [[arXiv]](https://arxiv.org/abs/2112.12612)
 
 Authors: [Tianwei Ni](https://twni2016.github.io/) (Mila, AI2), [Kiana Ehsani](https://sites.google.com/view/ehsanik-personal-website) (AI2), [Luca Weihs](https://lucaweihs.github.io/)† (AI2), [Jordi Salvador](http://jordisalvador-image.blogspot.com/)† (AI2) († equal advising)
@@ -121,3 +121,13 @@ If you have any questions, please create an issue or contact Tianwei (tianwei.ni
 
 ## Acknowledgement
 This repository uses [AllenAct](https://github.com/allenai/allenact) as codebase and [ManipulaTHOR](https://github.com/allenai/manipulathor) as testbed. GroupNormResNet18 and auxiliary tasks are heavily based on [Auxiliary Tasks Speed Up Learning PointGoal Navigation](https://github.com/joel99/habitat-pointnav-aux). 
+
+## Citation
+```
+@article{ni2021towards,
+  title={Towards Disturbance-Free Visual Mobile Manipulation},
+  author={Ni, Tianwei and Ehsani, Kiana and Weihs, Luca and Salvador, Jordi},
+  journal={arXiv preprint arXiv:2112.12612},
+  year={2021}
+}
+```
